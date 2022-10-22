@@ -3,6 +3,8 @@ import Main from "../layouts/Main";
 import Home from "../Pages/Home/Home";
 import Category from "../Pages/Category/Category";
 import News from "../Pages/News/News";
+import Register from "../Pages/Register/Register";
+import LogIn from "../Pages/LogIn/LogIn";
 
 
 export const routes = createBrowserRouter([
@@ -24,6 +26,14 @@ export const routes = createBrowserRouter([
                 path: '/news/:id',
                 element: <News></News>,
                 loader: ({ params }) => fetch(`http://127.0.0.1:5000/news/${params.id}`)
+            },
+            {
+                path: '/register',
+                element: <Register></Register>
+            },
+            {
+                path: '/login',
+                element: <LogIn></LogIn>
             }
         ]
     }

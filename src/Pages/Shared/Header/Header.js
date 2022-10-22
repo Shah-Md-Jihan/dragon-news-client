@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Button, Image } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { FaUserAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
 import LeftSideNav from '../LeftSideNav/LeftSideNav';
 
 const Header = () => {
+    const { user, providerLogOut } = useContext(AuthContext);
+
+    const handleSignOut = () => {
+        providerLogOut()
+            .then(() => {
+                // console.log('sign out successful')
+            })
+            .catch(e => console.error(e))
+    }
     return (
         <div>
             <Navbar collapseOnSelect className='mb-5' expand="lg" bg="dark" variant="dark">
@@ -34,9 +46,34 @@ const Header = () => {
                             </NavDropdown>
                         </Nav>
                         <Nav>
-                            <Nav.Link href="#deets">More deets</Nav.Link>
+                            <Nav.Link href="#deets">
+
+                                {
+                                    user?.uid ? user?.email
+                                        :
+                                        <Link to='/login' className="text-decoration-none text-white me-2">Login</Link>
+                                }
+                                {
+                                    user?.uid ? '' : <Link to='/register' className="text-decoration-none text-white me-2">Register</Link>
+                                }
+                            </Nav.Link>
                             <Nav.Link eventKey={2} href="#memes">
-                                Dank memes
+
+                                {user?.photoURL ?
+                                    <>
+                                        <Image src={user?.photoURL} style={{ height: '30px' }} roundedCircle></Image>
+                                    </>
+                                    :
+                                    <>
+                                        <FaUserAlt></FaUserAlt>
+                                    </>
+
+                                }
+                                {
+                                    user?.email ? <Button onClick={handleSignOut} variant='light' className="ms-3">Sign Out</Button>
+                                        : ''
+                                }
+
                             </Nav.Link>
                         </Nav>
                         <div className='d-lg-none'>
