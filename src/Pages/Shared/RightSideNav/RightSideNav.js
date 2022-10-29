@@ -14,7 +14,7 @@ const RightSideNav = () => {
     const handleGoogleLogin = () => {
         providerLogin(googleProvier)
             .then(result => {
-                const user = result.user;
+
             })
             .catch(error => {
                 console.error(error);

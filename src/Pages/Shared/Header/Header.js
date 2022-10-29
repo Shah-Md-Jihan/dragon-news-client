@@ -11,6 +11,7 @@ import LeftSideNav from '../LeftSideNav/LeftSideNav';
 
 const Header = () => {
     const { user, providerLogOut } = useContext(AuthContext);
+    console.log(user);
 
     const handleSignOut = () => {
         providerLogOut()
@@ -46,7 +47,7 @@ const Header = () => {
                             </NavDropdown>
                         </Nav>
                         <Nav>
-                            <Nav.Link href="#deets">
+                            <Nav.Link>
 
                                 {
                                     user?.uid ? user?.email
@@ -56,9 +57,10 @@ const Header = () => {
                                 {
                                     user?.uid ? '' : <Link to='/register' className="text-decoration-none text-white me-2">Register</Link>
                                 }
-                            </Nav.Link>
-                            <Nav.Link eventKey={2} href="#memes">
 
+                            </Nav.Link>
+                            <Nav.Link eventKey={2}>
+                                {console.log(user)}
                                 {user?.photoURL ?
                                     <>
                                         <Image src={user?.photoURL} style={{ height: '30px' }} roundedCircle></Image>

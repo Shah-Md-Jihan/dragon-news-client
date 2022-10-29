@@ -1,28 +1,38 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
+import useSetTitle from '../../hooks/useSetTitle';
 
 const LogIn = () => {
-
+    useSetTitle('Login');
     const { providerEmailLogin } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const [error, setError] = useState('');
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || '/';
 
     const handleEmailLogin = e => {
         e.preventDefault();
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password);
+
         providerEmailLogin(email, password)
             .then(userInfo => {
                 const user = userInfo.user;
+                setError('');
+                navigate(from, { replace: true });
             })
-            .catch(e => console.error(e));
+            .catch(e => setError(e.message));
         form.reset();
     }
     return (
         <div>
             <h4 className="text-center text-warning">Please Login First!</h4>
+            <span className="text-danger">{error}</span>
             <Form onSubmit={handleEmailLogin}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
